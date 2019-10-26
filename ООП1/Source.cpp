@@ -63,7 +63,51 @@ public:
 		return out;
 	}
 };
-
+class CStrArray {
+private:
+	CStr** arr;
+	int length;
+public:
+	CStrArray(int length) {
+		arr = new CStr* [length];
+		for (int i = 0; i < length; ++i)
+			arr[i] = new CStr;
+		this->length = length;
+	}
+	~CStrArray() {
+		if (arr != nullptr)
+			delete[] arr;
+	}
+	CStr &operator[](int index) {
+		return *arr[index];
+	}
+	void sortByContent() {
+		for (int i = 0; i < length - 1; ++i)
+			for (int j = i + 1; j < length; ++j)
+				if (arr[i] > arr[j]) {
+					CStr* temp = arr[j];
+					arr[j] = arr[i];
+					arr[i] = temp;
+				}
+	}
+	void sortByLength() {
+		for (int i = 0; i < length - 1; ++i)
+			for (int j = i + 1; j < length; ++j)
+				if (arr[i]->getLength() > arr[j]->getLength()) {
+					CStr* temp = arr[j];
+					*arr[j] = *arr[i];
+					*arr[i] = *temp;
+				}
+	}
+	bool isSortedByContent() {
+		for (int i = 0; i < length - 1; ++i) {
+			for (int j = i + 1; j < length; ++j)
+				if (arr[i] > arr[j])
+					return false;
+		}
+		return true;
+	}
+};
 int main() {
 	srand(time(NULL));
 	CStr a;					//По умолчанию
@@ -76,6 +120,11 @@ int main() {
 	cout << d << endl;
 	char test[] = "gwrh";	//Готовая строка
 	CStr f(test);
-	cout << f << endl;
+	cout << f << endl<< endl;
+	CStrArray arr(10);
+	arr.sortByContent();
+	for (int i = 0; i < 10; ++i)
+		cout << arr[i] << endl;
+	cout << arr.isSortedByContent();
 	return 0;
 }
