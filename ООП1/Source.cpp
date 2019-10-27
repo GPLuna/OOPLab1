@@ -86,8 +86,8 @@ public:
 			for (int j = i + 1; j < length; ++j)
 				if (arr[i] > arr[j]) {
 					CStr* temp = arr[j];
-					arr[j] = arr[i];
-					arr[i] = temp;
+					*arr[j] = *arr[i];
+					*arr[i] = *temp;
 				}
 	}
 	void sortByLength() {
